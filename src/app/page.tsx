@@ -31,7 +31,7 @@ export default function Home() {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">SecureVault</h1>
-            <p className="mt-2 text-gray-600">FAANG-Grade Zero-Knowledge File Sharing</p>
+            <p className="mt-2 text-gray-600">Secure File Sharing with Client-Side Encryption</p>
           </div>
 
           <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 flex gap-1">
@@ -91,7 +91,7 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-4">
           <span className="text-xs px-3 py-1 bg-green-50 text-green-700 rounded-full font-medium flex items-center gap-1">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Zero-Knowledge Active
+            <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> End-to-End Encryption Enabled
           </span>
           <button
             onClick={() => supabase.auth.signOut()}
@@ -105,8 +105,8 @@ export default function Home() {
       <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
         <section>
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Welcome back, Sakibur</h2>
-            <p className="text-gray-500">Manage your encrypted assets with full control.</p>
+            <h2 className="text-3xl font-bold text-gray-900">Dashboard</h2>
+            <p className="text-gray-500">Manage your encrypted files and secure sharing.</p>
           </div>
           <FileUploader />
         </section>
@@ -118,8 +118,8 @@ export default function Home() {
         </section>
       </div>
 
-      <footer className="py-12 border-t border-gray-100 text-center text-gray-400 text-xs">
-        &copy; 2026 SecureVault - Industrial Grade Security
+      <footer className="py-12 border-t border-gray-100 text-center text-gray-400 text-xs text-uppercase tracking-widest">
+        &copy; 2026 SECUREVAULT - SECURE CLOUD STORAGE
       </footer>
     </main>
   );

@@ -73,7 +73,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleLogin} className="space-y-4 max-w-sm mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-100">
       <h2 className="text-2xl font-bold text-gray-800">Secure Login</h2>
-      <p className="text-sm text-gray-500">Access your vault with zero-knowledge security.</p>
+      <p className="text-sm text-gray-500">Access your encrypted workspace.</p>
       
       {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg">{error}</div>}
 
@@ -104,7 +104,7 @@ export default function LoginForm() {
         disabled={loading}
         className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
       >
-        {loading ? "Unwrapping Vault..." : "Log In"}
+        {loading ? "Authenticating..." : "Log In"}
       </button>
     </form>
   );

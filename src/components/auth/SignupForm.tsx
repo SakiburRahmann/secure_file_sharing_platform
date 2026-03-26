@@ -4,6 +4,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { generateRSAKeyPair, exportKey, bufferToBase64 } from "@/lib/crypto/hybrid";
 import { deriveKeyFromPassword, generateSalt } from "@/lib/crypto/kdf";
+import { createUserProfile } from "@/app/actions/auth";
 
 export default function SignupForm() {
   const [email, setEmail] = useState("");
@@ -42,8 +43,8 @@ export default function SignupForm() {
       if (authError) throw authError;
       if (!authData.user) throw new Error("Signup failed");
 
-      // 5. Store Public Key and Encrypted Private Key in 'profiles' table
-      const { error: profileError } = await supabase.from("profiles").insert({
+      // 5. Store Public Key and Encrypted Private Key in 'profiles' table via Server Action (Bypasses RLS race condition)
+      const { success, error: profileError } = await createUserProfile({
         id: authData.user.id,
         public_key: bufferToBase64(await exportKey(publicKey)),
         encrypted_private_key: bufferToBase64(encryptedPrivateKey),
@@ -51,7 +52,7 @@ export default function SignupForm() {
         key_salt: bufferToBase64(salt.buffer as ArrayBuffer),
       });
 
-      if (profileError) throw profileError;
+      if (!success) throw new Error(profileError || "Failed to create profile");
 
       alert("Signup successful! Please confirm your email.");
     } catch (err: any) {
@@ -64,7 +65,7 @@ export default function SignupForm() {
   return (
     <form onSubmit={handleSignup} className="space-y-4 max-w-sm mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-100">
       <h2 className="text-2xl font-bold text-gray-800">Create Account</h2>
-      <p className="text-sm text-gray-500">Secure "Zero-Knowledge" registration starts here.</p>
+      <p className="text-sm text-gray-500">Secure cryptographic registration.</p>
       
       {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg">{error}</div>}
 
@@ -95,7 +96,7 @@ export default function SignupForm() {
         disabled={loading}
         className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
       >
-        {loading ? "Securing Keys..." : "Sign Up"}
+        {loading ? "Processing..." : "Sign Up"}
       </button>
     </form>
   );
