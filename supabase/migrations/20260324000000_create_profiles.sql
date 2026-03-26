@@ -26,3 +26,32 @@ CREATE POLICY "Users can update own profile" ON profiles
 -- Policy: Public can view public keys (for sharing)
 CREATE POLICY "Public can view public keys" ON profiles
   FOR SELECT USING (true); -- This allows fetching recipient's public key
+
+-- Trigger function to create profile record when a user signs up
+-- Extracts cryptographic keys from user metadata
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.profiles (
+    id,
+    public_key,
+    encrypted_private_key,
+    key_iv,
+    key_salt
+  )
+  VALUES (
+    new.id,
+    new.raw_user_meta_data->>'public_key',
+    new.raw_user_meta_data->>'encrypted_private_key',
+    new.raw_user_meta_data->>'key_iv',
+    new.raw_user_meta_data->>'key_salt'
+  );
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to execute on signup
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
