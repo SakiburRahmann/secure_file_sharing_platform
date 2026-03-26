@@ -79,7 +79,7 @@ export default function SignupForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 bg-gray-50 outline-none text-black font-bold placeholder:text-gray-400"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 bg-gray-50 outline-none !text-black font-bold placeholder:text-gray-400"
           placeholder="email@example.com"
         />
       </div>
@@ -91,7 +91,7 @@ export default function SignupForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 bg-gray-50 outline-none text-black font-bold placeholder:text-gray-400"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 bg-gray-50 outline-none !text-black font-bold placeholder:text-gray-400"
           placeholder="••••••••"
         />
       </div>
